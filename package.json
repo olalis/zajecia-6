@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "api": "cd public && php -S localhost:8000 api.php",
+    "api": "cd public && php -S localhost:8000 public/api.php",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "postinstall": "npm run build"

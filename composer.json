@@ -1,6 +1,4 @@
 {
     "name": "student/meetings-vue-slim",
-    "require": {
-        "slim/slim": "^3"
-    }
+    "require": {}
 }
