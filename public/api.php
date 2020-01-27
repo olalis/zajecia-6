@@ -32,15 +32,24 @@ $app->get(
             echo $db->lastErrorMsg();
             exit();
         }
-
-        $participants = [
-            ['id' => 1, 'firstname' => 'John', 'lastname' => 'Doe'],
-            ['id' => 2, 'firstname' => 'Kate', 'lastname' => 'Pig'],
-            ['id' => 3, 'firstname' => 'Chris', 'lastname' => 'Lua'],
-        ];
+        $participants = [];
+        $sql = "SELECT id, firstname, lastname FROM participant";
+        $ret = $db->query($sql);
+        while($row = $ret->fetchArray(SQLITE3_ASSOC) ) {
+            $participants [] = $row;
+        }
+        $db->close();
         return $response->withJson($participants);
     }
 );
+
+$app ->post(
+    '/api/participants',
+    function (Request $request, Response $response, array $args) {
+        $requestData = $request->getParsedBody();
+    }
+);
+
 
 
 
