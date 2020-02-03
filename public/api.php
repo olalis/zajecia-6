@@ -6,7 +6,16 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Slim\App;
 
-
+class MyDB extends SQLite3 {
+    function __construct() {
+        $this->open('../participants.db');
+    }
+}
+$db = new MyDB();
+if(!$db) {
+    echo $db->lastErrorMsg();
+    exit();
+}
 
 
 $app->get(
@@ -20,18 +29,7 @@ $app->get(
 
 $app->get(
     '/api/participants',
-    function (Request $request, Response $response, array $args) {
-
-        class MyDB extends SQLite3 {
-            function __construct() {
-                $this->open('../participants.db');
-            }
-        }
-        $db = new MyDB();
-        if(!$db) {
-            echo $db->lastErrorMsg();
-            exit();
-        }
+    function (Request $request, Response $response, array $args) use ($db) {
         $participants = [];
         $sql = "SELECT id, firstname, lastname FROM participant";
         $ret = $db->query($sql);
@@ -45,13 +43,13 @@ $app->get(
 
 $app ->post(
     '/api/participants',
-    function (Request $request, Response $response, array $args) {
-        $requestData = $request->getParsedBody();
+    function (Request $request, Response $response, array $args) use ($db) {
+        $participantData = $request->getParsedBody();
+        $sql = "INSERT INTO participant (firstname, lastname) VALUES ('$participantData[firstname]', '$participantData[lastname]')";
+        $db->exec($sql);
+        return $response->withStatus(201);
     }
 );
-
-
-
 
 $app->run();
 
