@@ -1,6 +1,7 @@
 {
     "name": "student/meetings-vue-slim",
     "require": {
+        "slim/slim": "^3",
         "ext-json": "*",
         "ext-sqlite3": "*"
     }
